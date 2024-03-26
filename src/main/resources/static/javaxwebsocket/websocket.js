@@ -7,25 +7,26 @@ function setConnected(connected) {
     document.getElementById('send').disabled = !connected;
 }
 
+// When connect button click
 function connect() {
     var username = document.getElementById("username").value;
     var host = document.location.host;
-    ws = new WebSocket("ws://" + host + "/chat/" + username);
+    ws = new WebSocket("ws://" + host + "/chat/" + username); // connecting to WebSocket
 
-    ws.onopen = function () {
+    ws.onopen = function () {   // Will be triggered when the websocket connection is open. Basically ws.onopen works like handler.
         setConnected(true);
         log.innerHTML += "You are online" + "\n";
         log2.innerHTML += username + " is online" + "\n";
         autoScroll();
     };
-    ws.onmessage = function (event) {
+    ws.onmessage = function (event) {   // Will be triggered when there is message event
         console.log(event);
         var message = event.data;
         log.innerHTML += message + "\n";
         log2.innerHTML += message + "\n";
         autoScroll();
     }
-    ws.onclose = function () {
+    ws.onclose = function () { // Will be triggered when the websocket connection is closed.
         setConnected(false);
         log.innerHTML += "You are offline" + "\n";
         log2.innerHTML += username + " is offline" + "\n";
